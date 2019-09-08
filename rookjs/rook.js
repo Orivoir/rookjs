@@ -5,7 +5,7 @@
  * <@repository https://github.com/Orivoir/rookjs>
  * <@usage https://orivoir.github.io/rookjs>
  *  
- * @thanks <http://www.wf3.fr> 
+ * @thanks <http://www.wf3.fr>
  * @thanks <http://openclassrooms.com> 
  * 
  * 
@@ -66,7 +66,8 @@ const rook = {
             `background: rgba(42,186,55);color: rgb(30,30,54);`
         );
         document.dispatchEvent( new Event('rook-ready') ) ;
-    }
+    } ,
+ 
 } ;
 
 ( (w,n,nl,a,s,o) => {
@@ -211,8 +212,6 @@ const rook = {
      * only on form node
      * live event constraints mapper
      */
-
-
     n.constraints = function( cbConstraints ) {
 
         if( !(cbConstraints instanceof Function) || this.nodeName.toLocaleLowerCase() !== 'form' ) {
@@ -409,6 +408,8 @@ const rook = {
 
             this.link = true ;
         }
+
+        return this;
     }
 
     n.preventDefault = function( type ) {
@@ -543,6 +544,8 @@ const rook = {
             ) )
                 this.removeEventListener( event.type , event.cb , event.capture );
         } ) ;
+
+        return this;
     }
 
     n.add = function( child , childRef = 'bottom' ) {
@@ -579,7 +582,9 @@ const rook = {
 
     s.node = function() {
 
-        return document.createElement(this.valueOf())
+        const create = this.valueOf().transformSelector ;
+
+        return document.createElement(create);
     }
 
     nl.on = function( type , cb , capture , transfer = null ) {
