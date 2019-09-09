@@ -17,7 +17,7 @@ methodsList.map( method => {
                     ${
                         method.extras.map( extra => (
                             `<li class="${extra.type.join(' ')}">${extra.describe}</li>`
-                        ) )
+                        ) ).join(' ')
                     }
                 </ul>
 

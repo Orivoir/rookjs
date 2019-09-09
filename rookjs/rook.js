@@ -11,6 +11,11 @@
  * 
  * write by 🐱‍👤 with {JavaScript}
  */
+
+ /**
+  * TODO:
+  * add sync position node2node feature
+  */
  
 const rook = {
 
@@ -73,6 +78,134 @@ const rook = {
 ( (w,n,nl,a,s,o) => {
 
     const d = document;
+
+    n.sync = function( axis ) {
+
+        if( typeof axis !== 'string' || !/(x|y)/i.test( axis ) ) {
+
+            if( rook.dev )
+                console.warn( 'node sync method arg1 bust be string: "x" or "y" , but you have give ' , axis );
+            return;
+        }
+
+        axis = axis.toLocaleLowerCase();
+
+        if( !this.sync.prototype[axis].node )
+            this.sync.prototype[axis].node = this;
+
+        return this.sync.prototype[axis] ;
+
+    } ;
+
+    n.sync.prototype.y = {
+        _top: true ,
+        _bottom: false ,
+        _ref: null ,
+        
+        get ref() {
+
+            return this._ref;
+
+        } ,
+
+        set ref(val) {
+
+            const last = this._ref;
+
+           this._ref = ( val instanceof Node ) ? val: null ;
+
+           if( last !== this._ref && this._ref instanceof Node ) {
+
+                if( !(this.node instanceof Node) ) {
+                    if( rook.dev )
+                        throw `internal library error with status code : [32-a-I] , please remote this issues to git repository https://github.com/Orivoir/rookjs/issues`
+
+                    return;
+                }
+
+                const node = this.node , ref = this._ref ;
+                node.style.top = `${ref.offsetTop + (this.top ? (0 - node.offsetHeight ) : ref.offsetHeight ) }px` ;
+
+
+           }
+
+        } ,
+
+        get top() {
+
+            return this._top;
+        } ,
+        set top( val ) {
+
+            this._top = ( typeof val === 'boolean' ) ? val: false;
+            this._bottom = !this._top;
+        } ,
+
+        get bottom() {
+
+            return this._bottom;
+        } ,
+        set bottom( val ) {
+
+            this._bottom = ( typeof val === 'boolean' ) ? val: false;
+            this._top = !this._bottom;
+        }
+    } ;
+
+    n.sync.prototype.x = {
+        _left: true ,
+        _right: false ,
+        _ref: null ,
+        
+        get ref() {
+
+            return this._ref;
+
+        } ,
+
+        set ref(val) {
+
+            const last = this._ref;
+
+           this._ref = ( val instanceof Node ) ? val: null ;
+
+           if( last !== this._ref && this._ref instanceof Node ) {
+
+                if( !(this.node instanceof Node) ) {
+                    if( rook.dev )
+                        throw `internal library error with status code : [32-a-I] , please remote this issues to git repository https://github.com/Orivoir/rookjs/issues`
+
+                    return;
+                }
+
+                const node = this.node , ref = this._ref ;
+                node.style.left = `${ref.offsetLeft + (this.left ? (0 - node.offsetWidth ) : ref.offsetWidth ) }px` ;
+
+
+           }
+
+        } ,
+
+        get left() {
+
+            return this._left;
+        } ,
+        set left( val ) {
+
+            this._left = ( typeof val === 'boolean' ) ? val: false;
+            this._right = !this._left;
+        } ,
+
+        get right() {
+
+            return this._right;
+        } ,
+        set right( val ) {
+
+            this._right = ( typeof val === 'boolean' ) ? val: false;
+            this._left = !this._right;
+        }
+    } ;
 
     o.defineProperty( s , 'transformSelector' , {
 
