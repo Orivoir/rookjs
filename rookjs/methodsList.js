@@ -193,6 +193,7 @@ const methodsList = [ // pffff ....
                 describe: 'this method is depreciate becauze injected in Node.prototype but works only with instance of HTMLFormElement'
             }
         ] ,
+        describe: 'remove default comportement for an event'
     } , {
         obj: 'Node' ,
         name: 'text' ,
@@ -394,7 +395,7 @@ const methodsList = [ // pffff ....
         name: '$$' ,
         type: '() => Promise',
         args: [] ,
-        descirbe: 'auto call jQuery .min version 3.4.1 via CDN with <code>window.fetch</code>' ,
+        describe: 'auto call jQuery .min version 3.4.1 via CDN with <code>window.fetch</code>' ,
         extras: [
             {
                 type: ['comportement' , 'event' ] ,

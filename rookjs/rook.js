@@ -317,6 +317,9 @@ const rook = {
 
         if( cb instanceof Function ) {
 
+            if( !this.eventSaver )
+                this.eventSaver = [] ;
+
             return this.eventSaver.filter( event =>  cb( event ) ) ;
 
         }

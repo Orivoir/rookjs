@@ -1,7 +1,7 @@
 methodsList.map( method => {
     
     const sect = 'sec'.node() ;
-    // sect.classList.add( 'method-' + method.name ) ; // method.name is not valid selector with $$ method
+    sect.classList.add( 'method-name' + method.name ) ; // method.name is not valid selector with $$ method
     sect.html = `
         <div>
             <h2>.${method.nameUI || method.name}${/\(\) \=\> .{1,18}$/.test(method.type) ? `(${method.args.map( arg => arg.type + ' ' + arg.name + ( arg.optional ? ' optional': '') + ' ' ) })` : ''}<h2>
@@ -63,15 +63,64 @@ methodsList.map( method => {
         } ).map( sujest => {
 
             const li = 'li'.node();
-            li.text = sujest.name
+            li.html = `<span class="sujest-name">${sujest.name}</span> <span class="sujest-obj">${sujest.obj}</span>`;
             '#speel-check ul'.js().add( li );
+
+            li
+                .events( evt => /mouse(over|out)/.test(evt.type) )
+                .map( evt => evt.active = false )
+            ;
+
+            const bubble = '#describe-mores-peel-check'.js() ;
+
+            li.on('mouseover' , e => {
+
+                const className = e.this.querySelector('.sujest-name').text.trim() ;
+
+                let method = methodsList.filter( meth => {
+
+                    return (meth.name||meth.nameUI) === className
+                } ) ;
+
+                if( method.length !== 1 ) {
+ 
+                    method = method.filter( meth => {
+
+                        return meth.obj === e.this.querySelector('.sujest-obj').text.trim()
+
+                    } ) ;
+                }
+
+                
+                bubble.classList.remove('hidden') ;
+                bubble.classList.remove('o-hidden') ;
+                bubble.text = method[0].describe.slice( 0 , 15 ) + ' ...' ;
+                '#more-speel-check'.js().style.top = (e.this.offsetTop - ('#more-speel-check'.js().offsetHeight / 4) ) + 'px' ;
+                
+                
+                
+            } ).on('mouseout' , e => {
+                
+                
+                // '#more-speel-check'.js().style.top = (e.this.offsetTop - ('#more-speel-check'.js().offsetHeight / 2) ) + 'px' ;
+                // '#more-speel-check'.js().style.top = (e.this.offsetTop - ('#more-speel-check'.js().offsetHeight / 4) ) + 'px' ;
+                bubble.text = 'click for hide' ;
+            } ) ;
         
         } ) ;
 
-        if( e.field.type === 'blur' )
+        if( e.field.type === 'blur' ) {
+            'article section'.js().map( section => 
+                section.classList.remove('search')
+            )
             '#speel-check'.js().classList.add('hidden') ;
-
-        if( e.field.type === 'focus' )
+        }
+        
+        if( e.field.type === 'focus' ) {
+            'article section'.js().map( section => 
+                section.classList.add('search')
+            )
             '#speel-check'.js().classList.remove('hidden') ;
+        }
     } )
 ;
