@@ -5,7 +5,7 @@
  * @use for docs, usage, tuto, sample, exemple, enjoy ...
  */
 
-const methodsList = [ // pffff ....
+const methodsList = [
     
     {
         obj: 'String' ,
