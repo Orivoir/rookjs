@@ -2,8 +2,6 @@
 
 /**
  * synchronyze position Node2Node
- *
- * const node2node = new 👽(new 🔥().😈)(🔥);  
  */ 
 
 // now i write
